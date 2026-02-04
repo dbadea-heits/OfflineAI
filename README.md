@@ -1,97 +1,213 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# OfflineAI 🤖
 
-# Getting Started
+> An offline-first AI-powered mobile app using small language models (SLMs)
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+[![React Native](https://img.shields.io/badge/React%20Native-0.83.1-blue.svg)](https://reactnative.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Step 1: Start Metro
+## 📱 Overview
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+**OfflineAI** is a React Native mobile application that brings the power of AI language models directly to your device. With a focus on privacy and offline functionality, this app runs small language models (SLMs) locally on your phone, ensuring your conversations stay private and work without an internet connection.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### ✨ Key Features
 
-```sh
-# Using npm
+- 🔒 **Privacy-First**: All AI processing happens on-device - your data never leaves your phone
+- 📵 **Fully Offline**: No internet connection required after initial setup
+- 🚀 **Fast & Responsive**: Optimized for mobile performance with efficient model inference
+- 💬 **Conversational Context**: Maintains conversation history for coherent multi-turn dialogues
+- 🎨 **Beautiful UI**: Modern, intuitive interface with markdown support for rich message formatting
+- 📦 **Model Management**: Easy model selection and loading from local storage
+- 💾 **Persistent Storage**: Conversations and settings saved locally using MMKV
+
+## 🏗️ Architecture
+
+### Tech Stack
+
+- **Framework**: React Native 0.83.1
+- **Language**: TypeScript 5.8.3
+- **State Management**: Redux Toolkit
+- **AI Engine**: [llama.rn](https://github.com/mybigday/llama.rn) - On-device LLM inference
+- **Storage**: 
+  - MMKV for fast key-value storage
+  - SQLite for structured data
+- **UI Components**:
+  - React Native Markdown Display for rich text rendering
+  - Custom components for chat interface
+
+### Project Structure
+
+```
+OfflineAI/
+├── src/
+│   ├── components/       # Reusable UI components
+│   │   ├── ChatInput.tsx
+│   │   ├── MessageBubble.tsx
+│   │   └── ModelSelector.tsx
+│   ├── screens/          # App screens
+│   │   └── ChatScreen.tsx
+│   ├── store/            # Redux state management
+│   │   ├── index.ts
+│   │   └── chatSlice.ts
+│   ├── hooks/            # Custom React hooks
+│   ├── services/         # Business logic & API services
+│   ├── db/               # Database & storage utilities
+│   ├── utils/            # Helper functions & utilities
+│   │   └── promptTemplates.ts
+│   └── constants/        # App constants
+├── models/               # Local AI models storage
+├── ios/                  # iOS native code
+├── android/              # Android native code
+└── App.tsx              # App entry point
+```
+
+### Prompt Templates
+
+The app supports multiple prompt formats for different model types:
+
+- **ChatML**: Default format for Llama 3 and TinyLlama models
+- **Alpaca**: Alternative format for Alpaca-based models
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have:
+
+- **Node.js** >= 20
+- **React Native development environment** set up ([Setup Guide](https://reactnative.dev/docs/set-up-your-environment))
+- **Xcode** (for iOS development)
+- **Android Studio** (for Android development)
+
+### Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/dbadea-heits/OfflineAI.git
+cd OfflineAI
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+3. **Install iOS dependencies** (iOS only)
+
+```bash
+# Install Ruby bundler (first time only)
+bundle install
+
+# Install CocoaPods dependencies
+cd ios
+bundle exec pod install
+cd ..
+```
+
+4. **Add AI models**
+
+Place your GGUF model files in the `models/` directory. Compatible models include:
+- TinyLlama
+- Llama 3
+- Phi-2
+- Other GGUF format models
+
+### Running the App
+
+#### Start Metro Bundler
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+#### Run on iOS
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+```bash
+npm run ios
+```
 
-### Android
+#### Run on Android
 
-```sh
-# Using npm
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
+
+## 📖 Usage
+
+1. **Select a Model**: On first launch, use the model selector to choose an AI model
+2. **Start Chatting**: Type your message in the input field and press send
+3. **View Responses**: AI responses are rendered with markdown support
+4. **Continue Conversations**: The app maintains context across multiple messages
+
+## 🛠️ Development
+
+### Available Scripts
+
+- `npm start` - Start Metro bundler
+- `npm run ios` - Run on iOS simulator
+- `npm run android` - Run on Android emulator
+- `npm test` - Run tests
+- `npm run lint` - Lint code with ESLint
+
+### Code Style
+
+This project uses:
+- **ESLint** for code linting
+- **Prettier** for code formatting
+- **TypeScript** for type safety
+
+## 🧪 Testing
+
+```bash
+npm test
+```
+
+## 📦 Building for Production
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+# Build for iOS
+cd ios
+xcodebuild -workspace OfflineAI.xcworkspace -scheme OfflineAI -configuration Release
 ```
 
-Then, and every time you update your native dependencies, run:
+### Android
 
-```sh
-bundle exec pod install
+```bash
+# Build APK
+cd android
+./gradlew assembleRelease
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## 🤝 Contributing
 
-```sh
-# Using npm
-npm run ios
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-# OR using Yarn
-yarn ios
-```
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## 📝 License
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Step 3: Modify your app
+## 🙏 Acknowledgments
 
-Now that you have successfully run the app, let's make changes!
+- [llama.rn](https://github.com/mybigday/llama.rn) - For making on-device LLM inference possible
+- [React Native](https://reactnative.dev/) - For the amazing mobile framework
+- The open-source AI community for developing small, efficient language models
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 📧 Contact
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Dan Badea - [@dbadea-heits](https://github.com/dbadea-heits)
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+Project Link: [https://github.com/dbadea-heits/OfflineAI](https://github.com/dbadea-heits/OfflineAI)
 
-## Congratulations! :tada:
+---
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Built with ❤️ for privacy-conscious AI enthusiasts**
